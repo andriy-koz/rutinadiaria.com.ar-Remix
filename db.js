@@ -1,10 +1,9 @@
-// db.js
-const sqlite3 = require("sqlite3");
-const { open } = require("sqlite");
+import sqlite3 from "sqlite3";
+import { open } from "sqlite";
 
 let dbInstance;
 
-async function openDb() {
+export async function openDb() {
   if (!dbInstance) {
     dbInstance = await open({
       filename: "./database.sqlite",
@@ -14,11 +13,9 @@ async function openDb() {
   return dbInstance;
 }
 
-async function closeDb() {
+export async function closeDb() {
   if (dbInstance) {
     await dbInstance.close();
     dbInstance = null;
   }
 }
-
-module.exports = { openDb, closeDb };

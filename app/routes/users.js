@@ -1,11 +1,11 @@
 // routes/users.js
 
-const express = require("express");
-const { check, validationResult } = require("express-validator");
-const { registerUser, authenticateUser } = require("../app/users/index");
-const jwt = require("jsonwebtoken");
+import { Router } from "express";
+import { check, validationResult } from "express-validator";
+import { registerUser, authenticateUser } from "../app/users/index";
+import { sign } from "jsonwebtoken";
 
-const router = express.Router();
+const router = Router();
 
 // Ruta de registro de usuario
 router.post(
@@ -68,7 +68,7 @@ router.post(
       }
 
       // Generar el token JWT
-      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+      const token = sign({ userId: user.id }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
 
@@ -81,4 +81,4 @@ router.post(
   }
 );
 
-module.exports = router;
+export default router;
