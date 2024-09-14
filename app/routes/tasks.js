@@ -20,19 +20,27 @@ export default function Tasks() {
   }, []);
 
   const handleAddTask = async () => {
-    const token = localStorage.getItem("token");
-    const response = await fetch("/tasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ description: newTask }),
-    });
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("/tasks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ description: newTask }),
+      });
 
-    if (response.ok) {
-      setTasks([...tasks, { description: newTask }]);
-      setNewTask("");
+      if (response.ok) {
+        const createdTask = await response.json();
+        setTasks([...tasks, createdTask]);
+        setNewTask("");
+      } else {
+        alert("Failed to add task");
+      }
+    } catch (error) {
+      console.error("Error adding task:", error);
+      alert("An error occurred while adding the task.");
     }
   };
 
