@@ -48,22 +48,37 @@ export default function Tasks() {
   };
 
   return (
-    <div>
-      <h1>Task Manager</h1>
-      <input
-        value={newTask}
-        onChange={(e) => setNewTask(e.target.value)}
-        placeholder='New task'
-      />
-      <button onClick={handleAddTask}>Add Task</button>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            {task.description}{" "}
-            <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+    <div className='flex h-screen items-center justify-center'>
+      <div className='flex flex-col items-center gap-16'>
+        <h1 className='text-2xl font-bold'>Task Manager</h1>
+        <div className='flex flex-col items-center gap-4'>
+          <input
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
+            placeholder='New task'
+            className='p-2 border rounded'
+          />
+          <button
+            onClick={handleAddTask}
+            className='bg-blue-500 text-white p-2 rounded'>
+            Add Task
+          </button>
+        </div>
+        <ul className='mt-6'>
+          {tasks.map((task) => (
+            <li
+              key={task.id}
+              className='flex justify-between items-center mb-2'>
+              <span>{task.description}</span>
+              <button
+                onClick={() => handleDeleteTask(task.id)}
+                className='bg-red-500 text-white p-1 rounded'>
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
