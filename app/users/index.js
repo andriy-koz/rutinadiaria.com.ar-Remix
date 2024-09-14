@@ -1,5 +1,5 @@
-const bcrypt = require("bcrypt");
-const { openDb } = require("./db");
+import bcrypt from "bcrypt";
+import { openDb } from "../../db.js";
 
 export async function checkIfEmailExists(email) {
   const db = await openDb();

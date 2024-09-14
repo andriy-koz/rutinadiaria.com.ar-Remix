@@ -2,8 +2,9 @@
 
 import { Router } from "express";
 import { check, validationResult } from "express-validator";
-import { registerUser, authenticateUser } from "../app/users/index";
-import { sign } from "jsonwebtoken";
+import { registerUser, authenticateUser } from "../users/index";
+import pkg from "jsonwebtoken";
+const { sign } = pkg;
 
 const router = Router();
 
