@@ -1,4 +1,4 @@
-import { openDb } from "../db.js"; // Usa import en lugar de require
+import { openDb } from "../../db.js"; // Subir dos niveles para encontrar el archivo en la raíz
 
 export async function createTaskList(userId, date) {
   const db = await openDb();
