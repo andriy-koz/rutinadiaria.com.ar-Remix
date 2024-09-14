@@ -1,6 +1,12 @@
 const bcrypt = require("bcrypt");
 const { openDb } = require("./db");
 
+export async function checkIfEmailExists(email) {
+  const db = await openDb();
+  const user = await db.get("SELECT * FROM users WHERE email = ?", [email]);
+  return user ? true : false;
+}
+
 export async function registerUser(username, email, password) {
   const db = await openDb();
   const passwordHash = await bcrypt.hash(password, 10);

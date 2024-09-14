@@ -1,3 +1,5 @@
+// routes/users.js
+
 const express = require("express");
 const { check, validationResult } = require("express-validator");
 const { registerUser, authenticateUser } = require("../app/users/index");
@@ -26,6 +28,12 @@ router.post(
     const { username, email, password } = req.body;
 
     try {
+      // Verificar si el correo ya existe
+      const existingUser = await checkIfEmailExists(email);
+      if (existingUser) {
+        return res.status(400).json({ error: "El correo ya está en uso" });
+      }
+
       await registerUser(username, email, password);
       return res
         .status(201)
