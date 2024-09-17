@@ -1,20 +1,45 @@
 import express from "express";
-import usersRoutes from "./routes/users.js"; // Importar las rutas con extensión .js
-import tasksRoutes from "./routes/tasks.js";
 import bodyParser from "body-parser";
-import morgan from "morgan";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const app = express();
 
-app.use(morgan("combined")); // Middleware de logs
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
-// Rutas de usuarios y tareas
-app.use("/users", usersRoutes);
-app.use("/tasks", tasksRoutes);
+// #region authentication middleware
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  // if (!token) {
+  //   return res.sendStatus(401); // Unauthorized if no token is present
+  // }
+
+  // Here, you would verify the token. For simplicity, we'll accept any token.
+  next();
+}
+// #endregion
+
+// #region tasks model
+let tasks = [];
+let currentId = 1;
+
+export function getTasks() {
+  return tasks;
+}
+
+export function addTask(description) {
+  const newTask = { id: currentId++, description };
+  tasks.push(newTask);
+  return newTask;
+}
+
+export function deleteTask(taskId) {
+  tasks = tasks.filter((task) => task.id !== parseInt(taskId, 10));
+}
+// #endregion
 
 const PORT = process.env.PORT || 3000;
 
